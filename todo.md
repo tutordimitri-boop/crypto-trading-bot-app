@@ -101,7 +101,13 @@
 - [x] Testes unitários (9 testes passando)
 - [x] Página de Trading integrada com componentes
 - [x] Documentação de operação (BYBIT_SETUP.md)
-- [ ] Migração para mainnet (quando tiver chaves reais)
+
+## Fase 16: Próximas Melhorias (Futuro)
+- [ ] Migração para mainnet (quando tiver chaves reais Bybit)
+- [ ] WebSocket para atualizações em tempo real
+- [ ] Dashboard de análise de performance
+- [ ] Sistema de alertas e notificações
+- [ ] Integração com outras exchanges
 
 ## Notas Importantes
 - Dashboard próprio (não Lovable)
