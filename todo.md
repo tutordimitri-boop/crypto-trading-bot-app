@@ -99,8 +99,9 @@
 - [x] Implementar procedures tRPC para trading (executeTrade, getOpenPositions, closePosition, etc)
 - [x] Criar componentes frontend (ExecuteTrade, BybitPositions)
 - [x] Testes unitários (9 testes passando)
-- [ ] Migração para mainnet
+- [x] Página de Trading integrada com componentes
 - [x] Documentação de operação (BYBIT_SETUP.md)
+- [ ] Migração para mainnet (quando tiver chaves reais)
 
 ## Notas Importantes
 - Dashboard próprio (não Lovable)

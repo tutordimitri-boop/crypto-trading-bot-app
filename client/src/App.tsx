@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { useAuth } from "./_core/hooks/useAuth";
 import Dashboard from "./pages/Dashboard";
 import Overview from "./pages/Overview";
+import Trading from "./pages/Trading";
 import Home from "./pages/Home";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/" component={isAuthenticated ? Overview : Home} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/overview" component={Overview} />
+      <Route path="/trading" component={Trading} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
