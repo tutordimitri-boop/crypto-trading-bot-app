@@ -92,15 +92,15 @@
 - [x] Instruções de deployment
 
 
-## Fase 15: Integração com Bybit (Próxima)
-- [ ] Gerar chaves de API Bybit (testnet)
-- [ ] Instalar biblioteca bybit-api
-- [ ] Criar cliente Bybit em server/bybit/client.ts
-- [ ] Implementar procedures tRPC para trading (executeTrade, getOpenPositions, closePosition, etc)
-- [ ] Criar componentes frontend (ExecuteTrade, BybitPositions)
-- [ ] Testes em testnet
+## Fase 15: Integração com Bybit
+- [x] Gerar chaves de API Bybit (testnet)
+- [x] Instalar biblioteca bybit-api
+- [x] Criar cliente Bybit em server/bybit/client.ts
+- [x] Implementar procedures tRPC para trading (executeTrade, getOpenPositions, closePosition, etc)
+- [x] Criar componentes frontend (ExecuteTrade, BybitPositions)
+- [x] Testes unitários (9 testes passando)
 - [ ] Migração para mainnet
-- [ ] Documentação de operação
+- [x] Documentação de operação (BYBIT_SETUP.md)
 
 ## Notas Importantes
 - Dashboard próprio (não Lovable)

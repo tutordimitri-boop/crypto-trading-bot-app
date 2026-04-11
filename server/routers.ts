@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
 import { getRobotConfig, updateRobotConfig, getOpenPositions, getTradeHistory, getLogs, createLog, getTechnicalIndicators } from "./db";
+import { bybitRouter } from "./routers/bybit";
 
 export const appRouter = router({
   system: systemRouter,
@@ -128,6 +129,9 @@ export const appRouter = router({
         return await getTechnicalIndicators(ctx.user.id, input.pair);
       }),
   }),
+
+  // Bybit Integration
+  bybit: bybitRouter,
 });
 
 export type AppRouter = typeof appRouter;
