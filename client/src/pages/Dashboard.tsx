@@ -4,6 +4,8 @@ import { trpc } from '@/lib/trpc';
 import { StatCard } from '@/components/StatCard';
 import { RobotStatusBadge } from '@/components/RobotStatusBadge';
 import { ModeSelector } from '@/components/ModeSelector';
+import { EquityCurve } from '@/components/EquityCurve';
+import { LogsFeed } from '@/components/LogsFeed';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrendingUp, TrendingDown, BarChart3, Zap } from 'lucide-react';
@@ -98,6 +100,9 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="container py-6 sm:py-8">
+        {/* Equity Curve */}
+        <EquityCurve isLoading={isLoading} />
+
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
@@ -206,27 +211,8 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Logs Tab */}
-          <TabsContent value="logs" className="card-premium">
-            <h3 className="text-lg font-bold text-foreground mb-4">Feed de Logs</h3>
-            {logs && logs.length > 0 ? (
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {logs.map((log: any) => (
-                  <div key={log.id} className="flex items-start gap-3 p-3 bg-card/50 rounded-lg border border-border/50">
-                    <span className={`badge-log ${log.level}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-foreground break-words">{log.message}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {new Date(log.timestamp).toLocaleTimeString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-muted-foreground text-center py-8">
-                Nenhum log disponível
-              </p>
-            )}
+          <TabsContent value="logs">
+            <LogsFeed limit={50} />
           </TabsContent>
         </Tabs>
       </div>

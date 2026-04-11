@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { useAuth } from "./_core/hooks/useAuth";
 import Dashboard from "./pages/Dashboard";
+import Overview from "./pages/Overview";
 import Home from "./pages/Home";
 
 function Router() {
@@ -21,10 +22,10 @@ function Router() {
 
   return (
     <Switch>
-      <Route path={"/"} component={isAuthenticated ? Dashboard : Home} />
-      <Route path={"/dashboard"} component={Dashboard} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+      <Route path="/" component={isAuthenticated ? Overview : Home} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/overview" component={Overview} />
+      <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
   );
