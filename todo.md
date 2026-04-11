@@ -90,3 +90,21 @@
 - [x] Checkpoint final
 - [x] Documentação de uso
 - [x] Instruções de deployment
+
+
+## Fase 15: Integração com Bybit (Próxima)
+- [ ] Gerar chaves de API Bybit (testnet)
+- [ ] Instalar biblioteca bybit-api
+- [ ] Criar cliente Bybit em server/bybit/client.ts
+- [ ] Implementar procedures tRPC para trading (executeTrade, getOpenPositions, closePosition, etc)
+- [ ] Criar componentes frontend (ExecuteTrade, BybitPositions)
+- [ ] Testes em testnet
+- [ ] Migração para mainnet
+- [ ] Documentação de operação
+
+## Notas Importantes
+- Dashboard próprio (não Lovable)
+- Integração direta com Bybit API
+- Começar em testnet antes de mainnet
+- Chaves de API em variáveis de ambiente
+- Suportar 3 modos: Normal (1H Futuros), Estratégico (15min Spot), Insano (5min Futuros)
