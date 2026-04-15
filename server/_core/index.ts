@@ -7,6 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { startTradingEngine } from '../tradingEngine';
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -57,9 +58,12 @@ async function startServer() {
     console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
   }
 
-  server.listen(port, () => {
+   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
+
+  // Inicia o motor de trading se o robô estiver ativo
+  startTradingEngine().catch(console.error);
 }
 
 startServer().catch(console.error);
