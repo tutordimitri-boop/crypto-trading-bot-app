@@ -35,19 +35,25 @@ export const appRouter = router({
       };
     }),
 
-    updateMode: protectedProcedure
-      .input(z.enum(["Normal", "Estratégico", "Insano"]))
-      .mutation(async ({ ctx, input }) => {
-        await updateRobotConfig(ctx.user.id, { operationMode: input });
-        return { success: true, mode: input };
-      }),
-
-    toggleActive: protectedProcedure
-      .input(z.boolean())
-      .mutation(async ({ ctx, input }) => {
-        await updateRobotConfig(ctx.user.id, { isActive: input ? 1 : 0 });
-        return { success: true, isActive: input };
-      }),
+  updateMode: protectedProcedure
+  .input(z.enum(["Normal", "Estratégico", "Insano"]))
+  .mutation(async ({ ctx, input }) => {
+    await updateRobotConfig(ctx.user.id, { operationMode: input });
+    await restartTradingEngine(); // <-- adicione esta linha
+    return { success: true, mode: input };
+  }),
+    
+  toggleActive: protectedProcedure
+  .input(z.boolean())
+  .mutation(async ({ ctx, input }) => {
+    await updateRobotConfig(ctx.user.id, { isActive: input ? 1 : 0 });
+    if (input) {
+      await startTradingEngine();
+    } else {
+      await stopTradingEngine();
+    }
+    return { success: true, isActive: input };
+  }),
 
     updateRiskSettings: protectedProcedure
       .input(z.object({
