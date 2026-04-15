@@ -65,5 +65,3 @@ async function startServer() {
   // Inicia o motor de trading se o robô estiver ativo
   startTradingEngine().catch(console.error);
 }
-
-startServer().catch(console.error);
