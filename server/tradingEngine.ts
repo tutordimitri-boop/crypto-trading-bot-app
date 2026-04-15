@@ -2,38 +2,12 @@ import { db } from './db';
 import { tradingConfig, trades } from '../drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { BybitClient } from './bybit/client';
-import { getIndicator } from './indicators'; // vamos criar depois
+import { bybit } from './bybit/client';
 
 let activeInterval: NodeJS.Timeout | null = null;
 let currentMode: string = 'Normal';
 
-export async function startTradingEngine() {
-  if (activeInterval) stopTradingEngine();
-
-  // Carrega a configuração atual do banco
-  const config = await db.select().from(tradingConfig).limit(1);
-  if (!config.length) return;
-  const { operationMode, isActive, riskPercentage, maxLeverage } = config[0];
-  if (!isActive) return;
-
-  currentMode = operationMode;
-  const intervalMs = getIntervalMs(currentMode);
-  
-  console.log(`🚀 Iniciando motor de trading no modo ${currentMode} (a cada ${intervalMs/1000}s)`);
-  
-  activeInterval = setInterval(async () => {
-    await tradingCycle();
-  }, intervalMs);
-}
-
-export function stopTradingEngine() {
-  if (activeInterval) {
-    clearInterval(activeInterval);
-    activeInterval = null;
-    console.log('⏹️ Motor de trading parado');
-  }
-}
-
+// Função principal que executa um ciclo de trading
 async function tradingCycle() {
   try {
     // 1. Verifica se o robô ainda está ativo
@@ -43,7 +17,7 @@ async function tradingCycle() {
       return;
     }
 
-    // 2. Obtém modo atual (pode ter mudado desde o último ciclo)
+    // 2. Obtém modo atual (pode ter mudado)
     const mode = config[0].operationMode;
     if (mode !== currentMode) {
       // Reinicia o motor com o novo intervalo
@@ -53,14 +27,19 @@ async function tradingCycle() {
       return;
     }
 
-    // 3. Busca dados de mercado (exemplo: par BTC/USDT)
+    // 3. Busca dados de mercado (exemplo: BTCUSDT)
     const symbol = 'BTCUSDT';
-    const client = BybitClient.getInstance();
-    const kline = await client.getKline(symbol, getKlineInterval(mode), 100);
-    const prices = kline.map(c => c.close);
+    const klineData = await bybit.getKline({
+      category: 'linear',
+      symbol,
+      interval: getKlineInterval(mode),
+      limit: 100,
+    });
+    if (!klineData.result?.list) return;
+    const prices = klineData.result.list.map((candle: any) => parseFloat(candle[4])); // close price
     const currentPrice = prices[prices.length - 1];
 
-    // 4. Calcula indicadores conforme o modo
+    // 4. Calcula sinal conforme o modo
     let signal: 'buy' | 'sell' | null = null;
     if (mode === 'Normal') {
       const ema9 = calculateEMA(prices, 9);
@@ -71,7 +50,7 @@ async function tradingCycle() {
       const prevEma21 = ema21[ema21.length - 2];
       if (prevEma9 <= prevEma21 && lastEma9 > lastEma21) signal = 'buy';
       else if (prevEma9 >= prevEma21 && lastEma9 < lastEma21) signal = 'sell';
-    } 
+    }
     else if (mode === 'Estratégico') {
       const rsi = calculateRSI(prices, 14);
       const lastRsi = rsi[rsi.length - 1];
@@ -79,36 +58,27 @@ async function tradingCycle() {
       else if (lastRsi > 70) signal = 'sell';
     }
     else if (mode === 'Insano') {
-      const { upper, lower } = calculateBollingerBands(prices, 20, 2);
-      const lastUpper = upper[upper.length - 1];
+      const { lower } = calculateBollingerBands(prices, 20, 2);
       const lastLower = lower[lower.length - 1];
       if (currentPrice <= lastLower) signal = 'buy';
-      else if (currentPrice >= lastUpper) signal = 'sell';
+      // Poderia também vender no topo, mas para simplificar só compra
     }
 
     // 5. Executa ordem se houver sinal e não houver posição aberta
     if (signal) {
-      const openPositions = await client.getOpenPositions(symbol);
+      const positions = await bybit.getPositionInfo({ category: 'linear', symbol });
+      const openPositions = positions.result?.list?.filter((p: any) => parseFloat(p.size) > 0) || [];
       if (openPositions.length === 0) {
-        const orderQty = calculateOrderQuantity(config[0].riskPercentage, currentPrice);
-        await client.placeOrder({
+        const qty = await calculateOrderQuantity(config[0]);
+        await bybit.submitOrder({
+          category: 'linear',
           symbol,
           side: signal === 'buy' ? 'Buy' : 'Sell',
-          qty: orderQty,
-          leverage: config[0].maxLeverage,
-          orderType: 'Market'
+          orderType: 'Market',
+          qty: qty.toString(),
         });
-        // Registra o trade no banco
-        await db.insert(trades).values({
-          symbol,
-          side: signal,
-          qty: orderQty,
-          price: currentPrice,
-          timestamp: new Date(),
-          realizedPnL: '0', // será atualizado no fechamento
-          status: 'open'
-        });
-        console.log(`✅ Ordem executada: ${signal} ${orderQty} ${symbol} @ ${currentPrice}`);
+        // Registrar trade no banco (opcional)
+        console.log(`✅ Ordem executada: ${signal} ${qty} ${symbol} @ ${currentPrice}`);
       }
     }
   } catch (error) {
@@ -116,11 +86,35 @@ async function tradingCycle() {
   }
 }
 
-// --- Funções auxiliares ---
+// Exporta funções para serem usadas pelas rotas
+export async function startTradingEngine() {
+  if (activeInterval) stopTradingEngine();
+  const config = await db.select().from(tradingConfig).limit(1);
+  if (!config.length || !config[0].isActive) return;
+  currentMode = config[0].operationMode;
+  const intervalMs = getIntervalMs(currentMode);
+  console.log(`🚀 Motor iniciado no modo ${currentMode} (a cada ${intervalMs/1000}s)`);
+  activeInterval = setInterval(tradingCycle, intervalMs);
+}
+
+export function stopTradingEngine() {
+  if (activeInterval) {
+    clearInterval(activeInterval);
+    activeInterval = null;
+    console.log('⏹️ Motor parado');
+  }
+}
+
+export async function restartTradingEngine() {
+  stopTradingEngine();
+  await startTradingEngine();
+}
+
+// --- Funções auxiliares (mantidas) ---
 function getIntervalMs(mode: string): number {
-  if (mode === 'Normal') return 60 * 60 * 1000;   // 1 hora
-  if (mode === 'Estratégico') return 15 * 60 * 1000; // 15 min
-  return 5 * 60 * 1000; // 5 min
+  if (mode === 'Normal') return 60 * 60 * 1000;
+  if (mode === 'Estratégico') return 15 * 60 * 1000;
+  return 5 * 60 * 1000;
 }
 
 function getKlineInterval(mode: string): string {
@@ -177,8 +171,17 @@ function calculateBollingerBands(prices: number[], period: number, stdDev: numbe
   return { upper, lower };
 }
 
-function calculateOrderQuantity(riskPercent: number, price: number): number {
-  // Lógica simplificada: riscoPercent é % do saldo a arriscar
-  // Precisaríamos do saldo real. Por ora, usa valor fixo simbólico
-  return 0.001; // 0.001 BTC (ajustável)
+async function calculateOrderQuantity(config: any): Promise<number> {
+  // Obtém saldo disponível (exemplo: 100 USDT)
+  const balance = await bybit.getWalletBalance({ accountType: 'UNIFIED' });
+  const usdtBalance = parseFloat(balance.result?.list?.[0]?.totalWalletBalance || '0');
+  const riskAmount = usdtBalance * (config.riskPercentage / 100);
+  const price = await getCurrentPrice('BTCUSDT');
+  const qty = riskAmount / price;
+  return Math.max(0.0001, qty); // mínimo 0.0001 BTC
+}
+
+async function getCurrentPrice(symbol: string): Promise<number> {
+  const ticker = await bybit.getTickers({ category: 'linear', symbol });
+  return parseFloat(ticker.result?.list[0]?.lastPrice || '0');
 }
