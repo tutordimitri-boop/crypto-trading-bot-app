@@ -3,12 +3,19 @@ import { StatCard } from '@/components/StatCard';
 import { EquityCurve } from '@/components/EquityCurve';
 import { LogsFeed } from '@/components/LogsFeed';
 import { Card } from '@/components/ui/card';
-import { TrendingUp, TrendingDown, BarChart3, Target, AlertTriangle } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart3, Target, AlertTriangle, RefreshCw } from 'lucide-react';
 
 export default function Overview() {
   const { data: config } = trpc.robot.getConfig.useQuery();
   const { data: positions } = trpc.positions.getOpen.useQuery();
   const { data: trades } = trpc.trades.getHistory.useQuery({ limit: 100 });
+  const utils = trpc.useContext();
+
+  const updateModeMutation = trpc.robot.updateMode.useMutation({
+    onSuccess: () => {
+      utils.robot.getConfig.invalidate();
+    },
+  });
 
   const totalPnL = trades?.reduce((sum: number, trade: any) => sum + parseFloat(trade.realizedPnL), 0) || 0;
   const winningTrades = trades?.filter((t: any) => parseFloat(t.realizedPnL) > 0).length || 0;
@@ -20,6 +27,14 @@ export default function Overview() {
 
   const openPositionsCount = positions?.length || 0;
   const openPositionsPnL = positions?.reduce((sum: number, pos: any) => sum + parseFloat(pos.unrealizedPnL), 0) || 0;
+
+  const handleModeChange = async (newMode: string) => {
+    try {
+      await updateModeMutation.mutateAsync({ mode: newMode });
+    } catch (error) {
+      console.error('Erro ao mudar modo:', error);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -99,7 +114,19 @@ export default function Overview() {
             </div>
             <div className="flex items-center justify-between p-3 bg-card/50 rounded-lg border border-border">
               <span className="text-muted-foreground">Modo de Operação</span>
-              <span className="font-bold text-accent">{config?.operationMode}</span>
+              <div className="flex items-center gap-2">
+                <select
+                  value={config?.operationMode || 'Normal'}
+                  onChange={(e) => handleModeChange(e.target.value)}
+                  disabled={updateModeMutation.isLoading}
+                  className="bg-background border border-border rounded-md px-3 py-1 text-sm font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
+                >
+                  <option value="Normal">Normal (1H)</option>
+                  <option value="Estratégico">Estratégico (15min)</option>
+                  <option value="Insano">Insano (5min)</option>
+                </select>
+                {updateModeMutation.isLoading && <RefreshCw className="w-4 h-4 animate-spin text-muted-foreground" />}
+              </div>
             </div>
             <div className="flex items-center justify-between p-3 bg-card/50 rounded-lg border border-border">
               <span className="text-muted-foreground">Risco por Trade</span>
