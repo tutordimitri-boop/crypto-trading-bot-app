@@ -23,7 +23,7 @@ function Router() {
 
   return (
     <Switch>
-      <Route path="/" component={isAuthenticated ? Overview : Home} />
+      <Route path="/" component={isAuthenticated ? Dashboard : Home} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/overview" component={Overview} />
       <Route path="/trading" component={Trading} />

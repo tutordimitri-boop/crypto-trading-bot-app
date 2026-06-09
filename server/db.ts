@@ -102,7 +102,10 @@ export async function updateRobotConfig(userId: number, data: Partial<typeof rob
   const db = await getDb();
   if (!db) return null;
   
-  const result = await db.update(robotConfigs).set(data).where(eq(robotConfigs.userId, userId));
+  // UPSERT: insere se não existir, atualiza se existir
+  const result = await db.insert(robotConfigs)
+    .values({ userId, ...data })
+    .onDuplicateKeyUpdate({ set: data });
   return result;
 }
 
