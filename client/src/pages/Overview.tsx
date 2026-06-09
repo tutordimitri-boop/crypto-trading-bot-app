@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { trpc } from '@/lib/trpc';
 import { StatCard } from '@/components/StatCard';
 import { EquityCurve } from '@/components/EquityCurve';
 import { LogsFeed } from '@/components/LogsFeed';
 import { Card } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, BarChart3, Target, AlertTriangle, RefreshCw } from 'lucide-react';
+
+type OperationMode = 'Normal' | 'Estratégico' | 'Insano';
 
 export default function Overview() {
   const { data: config } = trpc.robot.getConfig.useQuery();
@@ -28,9 +31,9 @@ export default function Overview() {
   const openPositionsCount = positions?.length || 0;
   const openPositionsPnL = positions?.reduce((sum: number, pos: any) => sum + parseFloat(pos.unrealizedPnL), 0) || 0;
 
-  const handleModeChange = async (newMode: string) => {
+  const handleModeChange = async (newMode: OperationMode) => {
     try {
-      await updateModeMutation.mutateAsync({ mode: newMode });
+      await updateModeMutation.mutateAsync(newMode);
     } catch (error) {
       console.error('Erro ao mudar modo:', error);
     }
@@ -117,15 +120,15 @@ export default function Overview() {
               <div className="flex items-center gap-2">
                 <select
                   value={config?.operationMode || 'Normal'}
-                  onChange={(e) => handleModeChange(e.target.value)}
-                  disabled={updateModeMutation.isLoading}
+                  onChange={(e) => handleModeChange(e.target.value as OperationMode)}
+                  disabled={updateModeMutation.isPending}
                   className="bg-background border border-border rounded-md px-3 py-1 text-sm font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
                 >
                   <option value="Normal">Normal (1H)</option>
                   <option value="Estratégico">Estratégico (15min)</option>
                   <option value="Insano">Insano (5min)</option>
                 </select>
-                {updateModeMutation.isLoading && <RefreshCw className="w-4 h-4 animate-spin text-muted-foreground" />}
+                {updateModeMutation.isPending && <RefreshCw className="w-4 h-4 animate-spin text-muted-foreground" />}
               </div>
             </div>
             <div className="flex items-center justify-between p-3 bg-card/50 rounded-lg border border-border">

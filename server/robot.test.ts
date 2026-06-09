@@ -39,7 +39,7 @@ describe('Robot Management Procedures', () => {
 
       expect(config).toBeDefined();
       expect(config.operationMode).toBe('Normal');
-      expect(config.isActive).toBe(false);
+      expect(config.isActive).toBe(0);
       expect(config.riskPercentage).toBe(1);
       expect(config.maxLeverage).toBe(10);
       expect(config.accountBalance).toBe('0');
