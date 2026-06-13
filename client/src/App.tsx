@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Overview from "./pages/Overview";
 import Trading from "./pages/Trading";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 function Router() {
   const { isAuthenticated, loading } = useAuth();
@@ -24,6 +25,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={isAuthenticated ? Dashboard : Home} />
+      <Route path="/login" component={Login} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/overview" component={Overview} />
       <Route path="/trading" component={Trading} />

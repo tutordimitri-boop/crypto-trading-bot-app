@@ -36,7 +36,7 @@ export default function Home() {
               <span className="text-xl font-bold text-foreground">Crypto Trading Bot</span>
             </div>
             <Button
-              onClick={() => window.location.href = getLoginUrl()}
+              onClick={() => window.location.href = '/login'}
               className="bg-accent hover:bg-accent/90 text-accent-foreground"
             >
               Entrar
