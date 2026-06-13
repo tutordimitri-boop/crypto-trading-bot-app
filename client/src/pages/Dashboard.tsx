@@ -8,12 +8,12 @@ import { EquityCurve } from '@/components/EquityCurve';
 import { LogsFeed } from '@/components/LogsFeed';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, TrendingDown, BarChart3, Zap } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart3, Zap, LogOut } from 'lucide-react';
 
 type OperationMode = 'Normal' | 'Estratégico' | 'Insano';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [robotConfig, setRobotConfig] = useState<any>(null);
 
@@ -93,6 +93,17 @@ export default function Dashboard() {
               >
                 {robotConfig.isActive === 1 ? 'Desativar' : 'Ativar'}
               </Button>
+              <div className="flex items-center gap-2 pl-3 border-l border-border">
+                <span className="text-sm text-muted-foreground">{user?.name || 'Usuário'}</span>
+                <Button
+                  onClick={() => logout()}
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
