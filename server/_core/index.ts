@@ -58,9 +58,13 @@ async function startServer() {
     console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
   }
 
-   server.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
-
-
 }
+
+// Inicia o servidor
+startServer().catch(err => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
+});
