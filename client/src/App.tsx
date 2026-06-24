@@ -12,23 +12,27 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function Router() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-pulse text-foreground">Carregando...</div>
+        <div className="text-foreground">Carregando...</div>
       </div>
     );
   }
 
+  // Se não está autenticado e tenta acessar rota protegida, vai para login
+  // Se está autenticado, pode acessar dashboard
+
   return (
     <Switch>
-      <Route path="/" component={isAuthenticated ? Dashboard : Home} />
+      <Route path="/" component={isAuthenticated ? Dashboard : Login} />
       <Route path="/login" component={Login} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/overview" component={Overview} />
-      <Route path="/trading" component={Trading} />
+      <Route path="/home" component={Home} />
+      <Route path="/dashboard" component={isAuthenticated ? Dashboard : Login} />
+      <Route path="/overview" component={isAuthenticated ? Overview : Login} />
+      <Route path="/trading" component={isAuthenticated ? Trading : Login} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
