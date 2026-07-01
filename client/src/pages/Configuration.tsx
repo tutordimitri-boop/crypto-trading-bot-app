@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +19,13 @@ export default function Configuration() {
   const [apiSecret, setApiSecret] = useState('');
   const [showApiKey, setShowApiKey] = useState(false);
   const [showApiSecret, setShowApiSecret] = useState(false);
+
+  useEffect(() => {
+    if (config) {
+      setRiskPercentage(config.riskPercentage || 1);
+      setMaxLeverage(config.maxLeverage || 10);
+    }
+  }, [config]);
 
   const handleUpdateRisk = () => {
     updateRiskMutation.mutate(
