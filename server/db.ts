@@ -102,10 +102,27 @@ export async function updateRobotConfig(userId: number, data: Partial<typeof rob
   const db = await getDb();
   if (!db) return null;
   
+  // Buscar configuração atual
+  const existing = await db.select().from(robotConfigs).where(eq(robotConfigs.userId, userId)).limit(1);
+  
+  // Mesclar dados atuais com novos dados
+  const mergedData = {
+    userId,
+    operationMode: data.operationMode ?? existing[0]?.operationMode ?? 'Normal',
+    isActive: data.isActive ?? existing[0]?.isActive ?? 0,
+    riskPercentage: data.riskPercentage ?? existing[0]?.riskPercentage ?? 1,
+    maxLeverage: data.maxLeverage ?? existing[0]?.maxLeverage ?? 10,
+    accountBalance: data.accountBalance ?? existing[0]?.accountBalance ?? '0',
+    totalPnL: data.totalPnL ?? existing[0]?.totalPnL ?? '0',
+    totalTrades: data.totalTrades ?? existing[0]?.totalTrades ?? 0,
+    bybitApiKey: data.bybitApiKey ?? existing[0]?.bybitApiKey ?? null,
+    bybitApiSecret: data.bybitApiSecret ?? existing[0]?.bybitApiSecret ?? null,
+  };
+  
   // UPSERT: insere se não existir, atualiza se existir
   const result = await db.insert(robotConfigs)
-    .values({ userId, ...data })
-    .onDuplicateKeyUpdate({ set: data });
+    .values(mergedData)
+    .onDuplicateKeyUpdate({ set: mergedData });
   return result;
 }
 
