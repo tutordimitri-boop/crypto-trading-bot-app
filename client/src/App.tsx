@@ -8,6 +8,7 @@ import { useAuth } from "./_core/hooks/useAuth";
 import Dashboard from "./pages/Dashboard";
 import Overview from "./pages/Overview";
 import Trading from "./pages/Trading";
+import Configuration from "./pages/Configuration";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/home" component={Home} />
       <Route path="/dashboard" component={isAuthenticated ? Dashboard : Login} />
+      <Route path="/configuration" component={isAuthenticated ? Configuration : Login} />
       <Route path="/overview" component={isAuthenticated ? Overview : Login} />
       <Route path="/trading" component={isAuthenticated ? Trading : Login} />
       <Route path="/404" component={NotFound} />

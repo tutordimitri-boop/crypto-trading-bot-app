@@ -160,6 +160,15 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Configuration Link */}
+        <div className="mb-8">
+          <a href="/configuration" className="inline-block">
+            <Button className="btn-premium btn-premium-primary">
+              ⚙️ Configurar Chaves de API Bybit
+            </Button>
+          </a>
+        </div>
+
         {/* Tabs Section */}
         <Tabs defaultValue="positions" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3 bg-card border border-border">
