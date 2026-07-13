@@ -70,17 +70,21 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container py-4 sm:py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                Crypto Trading Bot
-              </h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                Gerenciamento de robô de trading automatizado
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
+        <div className="container py-3 sm:py-6">
+          {/* Título */}
+          <div className="mb-3 sm:mb-0">
+            <h1 className="text-xl sm:text-3xl font-bold text-foreground">
+              Crypto Trading Bot
+            </h1>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+              Gerenciamento de robô de trading automatizado
+            </p>
+          </div>
+
+          {/* Controles - Layout responsivo */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-3 sm:mt-0">
+            {/* Status e Botão Ativar */}
+            <div className="flex items-center gap-2 sm:gap-3">
               <RobotStatusBadge 
                 isActive={robotConfig.isActive === 1} 
                 mode={robotConfig.operationMode as OperationMode}
@@ -89,21 +93,23 @@ export default function Dashboard() {
                 onClick={handleToggleActive}
                 disabled={updateModeMutation.isPending || toggleActiveMutation.isPending}
                 variant={robotConfig.isActive === 1 ? 'default' : 'outline'}
-                className="btn-premium"
+                className="btn-premium text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2"
               >
                 {robotConfig.isActive === 1 ? 'Desativar' : 'Ativar'}
               </Button>
-              <div className="flex items-center gap-2 pl-3 border-l border-border">
-                <span className="text-sm text-muted-foreground">{user?.name || 'Usuário'}</span>
-                <Button
-                  onClick={() => logout()}
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <LogOut className="w-4 h-4" />
-                </Button>
-              </div>
+            </div>
+
+            {/* Usuário e Logout */}
+            <div className="flex items-center gap-2 sm:gap-3 pl-2 sm:pl-3 border-l border-border">
+              <span className="text-xs sm:text-sm text-muted-foreground truncate">{user?.name || 'Usuário'}</span>
+              <Button
+                onClick={() => logout()}
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-foreground h-8 w-8 p-0"
+              >
+                <LogOut className="w-4 h-4" />
+              </Button>
             </div>
           </div>
         </div>
