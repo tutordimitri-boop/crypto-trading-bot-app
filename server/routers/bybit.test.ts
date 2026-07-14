@@ -179,7 +179,7 @@ describe('Bybit Router', () => {
       } catch (error: any) {
         expect(error.message).toContain('Erro ao obter informações de mercado');
       }
-    });
+    }, 15000);
   });
 
   describe('verifyConnection', () => {

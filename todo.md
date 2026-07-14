@@ -98,11 +98,17 @@
 - [x] Criar cliente Bybit em server/bybit/client.ts
 - [x] Implementar procedures tRPC para trading (executeTrade, getOpenPositions, closePosition, etc)
 - [x] Criar componentes frontend (ExecuteTrade, BybitPositions)
-- [x] Testes unitários (9 testes passando)
+- [x] Testes unitários (26 testes passando - corrigido timeout do getMarketInfo)
 - [x] Página de Trading integrada com componentes
 - [x] Documentação de operação (BYBIT_SETUP.md)
 
-## Fase 16: Próximas Melhorias (Futuro)
+## Fase 16: Refinamento Final
+- [x] Merge do design digital halftone para main
+- [x] Corrigir teste do getMarketInfo (aumentar timeout para 15s)
+- [x] Todos os 26 testes passando
+- [x] Design atualizado com fundo digital halftone e glassmorphism
+
+## Fase 17: Próximas Melhorias (Futuro)
 - [ ] Migração para mainnet (quando tiver chaves reais Bybit)
 - [ ] WebSocket para atualizações em tempo real
 - [ ] Dashboard de análise de performance
