@@ -1,6 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
-@import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -355,3 +353,7 @@
     @apply transition-all duration-300 ease-out;
   }
 }
+
+/* Tailwind CSS e animações devem vir por último */
+@import "tailwindcss";
+@import "tw-animate-css";
