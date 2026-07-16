@@ -3,7 +3,7 @@ import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getLoginUrl } from '@/const';
-import { TrendingUp, Zap, Shield, BarChart3, Lock } from 'lucide-react';
+import { TrendingUp, Zap, Shield, BarChart3, Lock, Mail } from 'lucide-react';
 
 export default function Login() {
   const { isAuthenticated, loading } = useAuth();
@@ -78,14 +78,26 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Login Button */}
-            <Button
-              onClick={() => window.location.href = getLoginUrl()}
-              className="btn-premium btn-premium-primary w-full h-12 text-base font-semibold"
-            >
-              <Lock className="w-5 h-5 mr-2" />
-              Entrar com Manus
-            </Button>
+            {/* Login Buttons */}
+            <div className="space-y-3">
+              <Button
+                onClick={() => window.location.href = getLoginUrl()}
+                className="btn-premium btn-premium-primary w-full h-12 text-base font-semibold"
+              >
+                <Lock className="w-5 h-5 mr-2" />
+                Entrar com Manus
+              </Button>
+              <Button
+                onClick={() => {
+                  // Placeholder para Google OAuth
+                  alert('Login com Google em breve!');
+                }}
+                className="btn-premium btn-premium-secondary w-full h-12 text-base font-semibold"
+              >
+                <Mail className="w-5 h-5 mr-2" />
+                Entrar com Google
+              </Button>
+            </div>
 
             {/* Footer */}
             <div className="text-center text-xs text-muted-foreground space-y-2">

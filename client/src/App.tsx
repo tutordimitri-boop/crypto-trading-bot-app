@@ -42,17 +42,42 @@ function Router() {
 }
 
 function App() {
+  const bgStyle = {
+    minHeight: '100vh',
+    width: '100%',
+    backgroundColor: '#000000',
+    background: `
+      radial-gradient(circle at 30% 60%, rgba(0, 255, 157, 0.22) 0%, rgba(0, 184, 255, 0.12) 30%, rgba(0, 0, 0, 0) 65%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 16px,
+        rgba(0, 255, 157, 0.08) 16px,
+        rgba(0, 255, 157, 0.08) 18px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 16px,
+        rgba(255, 255, 255, 0.02) 16px,
+        rgba(255, 255, 255, 0.02) 18px
+      ),
+      linear-gradient(to bottom, #000000, #000000)
+    `,
+    backgroundAttachment: 'fixed'
+  } as React.CSSProperties;
+
   return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <div style={bgStyle}>
+      <ErrorBoundary>
+        <ThemeProvider defaultTheme="dark">
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
+    </div>
   );
 }
 
