@@ -47,20 +47,20 @@ function App() {
     width: '100%',
     backgroundColor: '#000000',
     background: `
-      radial-gradient(circle at 30% 60%, rgba(0, 255, 157, 0.22) 0%, rgba(0, 184, 255, 0.12) 30%, rgba(0, 0, 0, 0) 65%),
+      radial-gradient(circle at 30% 60%, rgba(0, 255, 157, 0.35) 0%, rgba(0, 184, 255, 0.25) 30%, rgba(0, 0, 0, 0) 65%),
       repeating-linear-gradient(
         45deg,
         transparent,
         transparent 16px,
-        rgba(0, 255, 157, 0.08) 16px,
-        rgba(0, 255, 157, 0.08) 18px
+        rgba(0, 255, 157, 0.12) 16px,
+        rgba(0, 255, 157, 0.12) 18px
       ),
       repeating-linear-gradient(
         -45deg,
         transparent,
         transparent 16px,
-        rgba(255, 255, 255, 0.02) 16px,
-        rgba(255, 255, 255, 0.02) 18px
+        rgba(255, 255, 255, 0.03) 16px,
+        rgba(255, 255, 255, 0.03) 18px
       ),
       linear-gradient(to bottom, #000000, #000000)
     `,

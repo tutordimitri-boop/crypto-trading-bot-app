@@ -123,15 +123,15 @@
 - Suportar 3 modos: Normal (1H Futuros), Estratégico (15min Spot), Insano (5min Futuros)
 
 ## Fase 18: Correção do Fundo Digital Halftone
-- [ ] Investigar por que o CSS do fundo não está sendo aplicado
-- [ ] Corrigir a ordem de importação ou aplicação do CSS
-- [ ] Verificar se o background está sendo sobrescrito por outra regra
-- [ ] Testar o fundo no preview de desenvolvimento
-- [ ] Publicar as alterações
+- [x] Investigar por que o CSS do fundo não estava sendo aplicado
+- [x] Corrigir a ordem de importação ou aplicação do CSS
+- [x] Verificar se o background estava sendo sobrescrito por outra regra
+- [x] Testar o fundo no preview de desenvolvimento
+- [x] Publicar as alterações
 
 ## Fase 19: Autenticação com Google
+- [x] Adicionar opção de login com Google na página de Login
 - [ ] Configurar Google OAuth no projeto
-- [ ] Adicionar opção de login com Google na página de Login
 - [ ] Implementar fluxo de autenticação com Google
 - [ ] Testar login com Google
 - [ ] Manter compatibilidade com Manus OAuth
