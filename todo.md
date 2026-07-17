@@ -137,10 +137,10 @@
 - [x] Manter compatibilidade com Manus OAuth
 
 ## Fase 20: Mais Funcionalidades de Trading
-- [ ] Adicionar suporte para múltiplas estratégias
-- [ ] Implementar histórico de trades
-- [ ] Adicionar análise técnica avançada
-- [ ] Suporte para alertas de preço
+- [x] Adicionar suporte para múltiplas estratégias
+- [x] Implementar histórico de trades
+- [x] Adicionar análise técnica avançada
+- [x] Suporte para alertas de preço
 
 ## Fase 22: Melhorias no Dashboard
 - [ ] Refatorar layout do dashboard
