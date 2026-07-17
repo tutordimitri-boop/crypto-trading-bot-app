@@ -89,8 +89,7 @@ export default function Login() {
               </Button>
               <Button
                 onClick={() => {
-                  // Placeholder para Google OAuth
-                  alert('Login com Google em breve!');
+                  window.location.href = `/api/google/login?returnPath=${encodeURIComponent(window.location.pathname)}`;
                 }}
                 className="btn-premium btn-premium-secondary w-full h-12 text-base font-semibold"
               >

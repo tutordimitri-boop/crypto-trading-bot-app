@@ -135,3 +135,28 @@
 - [ ] Implementar fluxo de autenticação com Google
 - [ ] Testar login com Google
 - [ ] Manter compatibilidade com Manus OAuth
+
+## Fase 20: Autenticação com Google OAuth
+- [ ] Configurar Google OAuth no projeto
+- [ ] Implementar fluxo de autenticação com Google
+- [ ] Integrar Google OAuth com o sistema de usuários
+- [ ] Testar login com Google
+- [ ] Manter compatibilidade com Manus OAuth
+
+## Fase 21: Mais Funcionalidades de Trading
+- [ ] Adicionar suporte para múltiplas estratégias
+- [ ] Implementar histórico de trades
+- [ ] Adicionar análise técnica avançada
+- [ ] Suporte para alertas de preço
+
+## Fase 22: Melhorias no Dashboard
+- [ ] Refatorar layout do dashboard
+- [ ] Adicionar widgets customizáveis
+- [ ] Melhorar visualização de dados
+- [ ] Adicionar gráficos interativos
+
+## Fase 23: WebSocket para Tempo Real
+- [ ] Implementar conexão WebSocket
+- [ ] Atualizar preços em tempo real
+- [ ] Atualizar posições em tempo real
+- [ ] Sincronizar estado entre abas
