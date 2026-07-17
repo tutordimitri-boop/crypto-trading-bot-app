@@ -142,11 +142,11 @@
 - [x] Adicionar análise técnica avançada
 - [x] Suporte para alertas de preço
 
-## Fase 22: Melhorias no Dashboard
-- [ ] Refatorar layout do dashboard
-- [ ] Adicionar widgets customizáveis
-- [ ] Melhorar visualização de dados
-- [ ] Adicionar gráficos interativos
+## Fase 21: Melhorias no Dashboard
+- [x] Refatorar layout do dashboard
+- [x] Adicionar widgets customizáveis
+- [x] Melhorar visualização de dados
+- [x] Adicionar gráficos interativos
 
 ## Fase 23: WebSocket para Tempo Real
 - [ ] Implementar conexão WebSocket
