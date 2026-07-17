@@ -131,19 +131,12 @@
 
 ## Fase 19: Autenticação com Google
 - [x] Adicionar opção de login com Google na página de Login
-- [ ] Configurar Google OAuth no projeto
-- [ ] Implementar fluxo de autenticação com Google
-- [ ] Testar login com Google
-- [ ] Manter compatibilidade com Manus OAuth
+- [x] Configurar Google OAuth no projeto
+- [x] Implementar fluxo de autenticação com Google
+- [x] Testar login com Google
+- [x] Manter compatibilidade com Manus OAuth
 
-## Fase 20: Autenticação com Google OAuth
-- [ ] Configurar Google OAuth no projeto
-- [ ] Implementar fluxo de autenticação com Google
-- [ ] Integrar Google OAuth com o sistema de usuários
-- [ ] Testar login com Google
-- [ ] Manter compatibilidade com Manus OAuth
-
-## Fase 21: Mais Funcionalidades de Trading
+## Fase 20: Mais Funcionalidades de Trading
 - [ ] Adicionar suporte para múltiplas estratégias
 - [ ] Implementar histórico de trades
 - [ ] Adicionar análise técnica avançada

@@ -6,6 +6,7 @@ import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
 import { getRobotConfig, updateRobotConfig, getOpenPositions, getTradeHistory, getLogs, createLog, getTechnicalIndicators } from "./db";
 import { bybitRouter } from "./routers/bybit";
+import { strategiesRouter } from "./routers/strategies";
 
 export const appRouter = router({
   system: systemRouter,
@@ -133,6 +134,9 @@ export const appRouter = router({
 
   // Bybit Integration
   bybit: bybitRouter,
+
+  // Trading Strategies
+  strategies: strategiesRouter,
 });
 
 export type AppRouter = typeof appRouter;
