@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getLoginUrl } from "@/const";
 import { TrendingUp, Zap, Shield, BarChart3, ArrowRight } from "lucide-react";
+import { BenefitsSection } from "@/components/BenefitsSection";
 
 export default function Home() {
   const { isAuthenticated, loading } = useAuth();
@@ -108,8 +109,11 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Benefits Section */}
+        <BenefitsSection />
+
         {/* Stats Section */}
-        <section className="container mx-auto px-4 py-20 border-t border-border/50">
+        <section className="container mx-auto px-4 py-20 border-t border-border/50 mt-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-accent mb-2">8+</div>
@@ -127,7 +131,7 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="container mx-auto px-4 py-20">
+        <section className="container mx-auto px-4 py-20 border-t border-border/50 mt-20">
           <Card className="p-12 bg-accent/10 border-accent/20 text-center space-y-6">
             <h2 className="text-3xl font-bold text-foreground">Pronto para começar?</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
